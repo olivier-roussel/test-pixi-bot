@@ -1,0 +1,56 @@
+[project]
+authors = ["Olivier Roussel <olivier.roussel@inria.fr>"]
+channels = ["conda-forge"]
+name = "test-pixi-bot"
+platforms = ["linux-64", "osx-64"]
+version = "1.0.0"
+license = "GPL-2.0-only"
+
+# TODO: add ccache support
+[build-dependencies]
+cxx-compiler = ">=1.7.0"
+cmake = ">=3.22"
+ninja = ">=1.11"
+pkg-config = ">=0.29.2"
+git = ">=2.47.0"
+
+[dependencies]
+libopencv = "*"
+eigen = "*"
+libjpeg-turbo = "*"
+libpng = "*"
+libblas = "*"
+libcblas = "*"
+liblapack = "*"
+liblapacke = "*"
+libiconv = "<=1.17"
+
+[target.unix.dependencies]
+xorg-libx11 = "*"
+xorg-libxfixes = "*"
+xorg-xorgproto = "*"
+# TODO: activate on windows as well
+libxml2 = "*"
+libdc1394 = ">=2.2.6"
+librealsense = "*"
+
+[target.linux-64.dependencies]
+mesa-libegl-cos7-x86_64 = "*"
+
+[target.osx.dependencies]
+llvm-openmp = "*"
+
+[feature.python-bindings]
+dependencies = { python = ">=3.8", pybind11 = "*" }
+[feature.python-bindings.tasks]
+foo-py = { cmd = "echo Foo python bindings" }
+
+[tasks]
+foo = { cmd = [
+  "echo",
+  "Foo"
+] }
+
+[environments]
+default = { solve-group = "base" }
+all = { features = ["python-bindings"], solve-group = "base" }
